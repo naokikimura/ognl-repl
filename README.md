@@ -27,7 +27,7 @@ Creating an Executable JAR File
     mvn clean package
 
     # copy dependency
-    mvn dependency:copy-dependency
+    mvn dependency:copy-dependencies
     # run
     java -jar target/ognl-repl-*.jar
 
