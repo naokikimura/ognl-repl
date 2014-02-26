@@ -8,17 +8,25 @@
     <packaging>jar</packaging>
 
     <name>OGNL REPL</name>
-    <url>https://github.com/naokikimura/ognl-repl</url>
+    <description>Object-Graph Navigation Language Read–eval–print loop</description>
+    <url>http://naokikimura.github.io/ognl-repl/</url>
 
     <scm>
         <connection>scm:git:https://github.com/naokikimura/ognl-repl.git</connection>
+        <developerConnection>scm:git:git@github.com:naokikimura/ognl-repl.git</developerConnection>
         <url>https://github.com/naokikimura/ognl-repl</url>
     </scm>
+
+    <issueManagement>
+        <url>https://github.com/naokikimura/ognl-repl/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
 
     <licenses>
         <license>
             <name>The MIT License</name>
             <url>https://raw.github.com/naokikimura/ognl-repl/master/LICENSE</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
@@ -50,20 +58,120 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>downloads-maven-plugin</artifactId>
+                <version>0.6</version>
+                <configuration>
+                    <description>Official ${project.name} build of the ${project.version} release</description>
+                    <override>true</override>
+                    <includeAttached>true</includeAttached>
+                    <server>github</server>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.9</version>
+                <configuration>
+                    <message>Building site for ${project.version}</message>
+                    <server>github</server>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>site</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-project-info-reports-plugin</artifactId>
+                            <version>2.2</version>
+                            <configuration>
+                                <dependencyDetailsEnabled>true</dependencyDetailsEnabled>
+                                <dependencyLocationsEnabled>true</dependencyLocationsEnabled>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <version>2.7</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-report-plugin</artifactId>
+                            <version>2.6</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-checkstyle-plugin</artifactId>
+                            <version>2.6</version>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
                 <configuration>
                     <archive>
                         <manifest>
                             <mainClass>example.App</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>dependency</classpathPrefix>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
-        </plugins>    
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
     <dependencies>
