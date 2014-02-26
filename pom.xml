@@ -7,7 +7,7 @@
     <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>ognl-repl</name>
+    <name>OGNL REPL</name>
     <url>https://github.com/naokikimura/ognl-repl</url>
 
     <scm>
