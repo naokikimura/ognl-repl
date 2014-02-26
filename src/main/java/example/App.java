@@ -27,7 +27,7 @@ public abstract class App {
         return new App() {
             @Override
             public void execute(final Map context, final Object root) throws Exception {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                 String expression;
                 while ((expression = reader.readLine()) != null) {
                     try {
