@@ -13,7 +13,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/naokikimura/ognl-repl.git</connection>
-        <developerConnection>scm:git:git@github.com:naokikimura/ognl-repl.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/naokikimura/ognl-repl.git</developerConnection>
         <url>https://github.com/naokikimura/ognl-repl</url>
     </scm>
 
