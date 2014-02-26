@@ -15,10 +15,10 @@
 -docencoding
 'UTF-8'
 -doctitle
-'OGNL REPL 0.1.0-SNAPSHOT Test API'
+'OGNL REPL 0.1.0 Test API'
 -link
 'http://java.sun.com/javase/6/docs/api'
 -use
 -version
 -windowtitle
-'OGNL REPL 0.1.0-SNAPSHOT Test API'
+'OGNL REPL 0.1.0 Test API'

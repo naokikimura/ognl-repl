@@ -3,7 +3,7 @@
 <rss version="0.91">
   <channel>
     <title>OGNL REPL - Checkstyle report</title>
-    <link>https://github.com/naokikimura/ognl-repl</link>
+    <link>http://naokikimura.github.io/ognl-repl/</link>
     <description>OGNL REPL - Checkstyle report</description>
     <language>en-us</language>
     <copyright>&#169;2014</copyright>
@@ -13,9 +13,9 @@
              Warnings: 0,
              Infos: 0
       </title>
-            <link>https://github.com/naokikimura/ognl-repl/checkstyle.html</link>
+            <link>http://naokikimura.github.io/ognl-repl//checkstyle.html</link>
       <description>
-        <p>Click <a href="https://github.com/naokikimura/ognl-repl/checkstyle.html">here</a> for the full Checkstyle report.</p>
+        <p>Click <a href="http://naokikimura.github.io/ognl-repl//checkstyle.html">here</a> for the full Checkstyle report.</p>
 
         <table summary="Files" boder="1">
           <thead>
@@ -29,7 +29,7 @@
           <tbody>
                           <tr>
                 <td>
-                  <a href="https://github.com/naokikimura/ognl-repl/checkstyle.html#example.App.java">example/App.java</a>
+                  <a href="http://naokikimura.github.io/ognl-repl//checkstyle.html#example.App.java">example/App.java</a>
                 </td>
                 <td>
                   0
