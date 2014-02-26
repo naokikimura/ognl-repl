@@ -1,0 +1,24 @@
+-classpath
+'/Users/naoki/Documents/workspace/ognl-repl/target/classes:/Users/naoki/.m2/repository/javassist/javassist/3.11.0.GA/javassist-3.11.0.GA.jar:/Users/naoki/.m2/repository/ognl/ognl/3.0.6/ognl-3.0.6.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/Users/naoki/Documents/workspace/ognl-repl/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2014. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/naoki/Documents/workspace/ognl-repl/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'OGNL REPL 0.1.0-SNAPSHOT API'
+-link
+'http://java.sun.com/javase/6/docs/api'
+-use
+-version
+-windowtitle
+'OGNL REPL 0.1.0-SNAPSHOT API'
