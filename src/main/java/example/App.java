@@ -75,9 +75,9 @@ public abstract class App {
         }
     }
 
-    static Object newRootInstance() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-        String rootClassName = System.getProperty("ognl.repl.root");
-        return rootClassName == null ? null : Class.forName(rootClassName).newInstance();
+    static Object newRootInstance() throws OgnlException {
+        String expression = System.getProperty("ognl.repl.root.expression");
+        return expression == null || expression.equals("") ? null : Ognl.getValue(expression, null);
     }
 
     public static void main(String[] args) throws Exception {
