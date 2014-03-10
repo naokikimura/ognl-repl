@@ -9,17 +9,17 @@ Quick Start
     git clone https://github.com/naokikimura/ognl-repl.git
     cd ognl-repl
 
-    mvn compile exec:java
+    mvn -q compile exec:java
 
 in a more useful way
 
-    rlwrap mvn compile exec:java
+    rlwrap mvn -q compile exec:java
 
 Read OGNL expressions from Standard input (stdin)
 -------------------------------------------------
 
     echo "3 * 4" > test.ognl
-    mvn compile exec:java < test.ognl
+    mvn -q compile exec:java < test.ognl
 
 Creating an Executable JAR File
 -------------------------------
