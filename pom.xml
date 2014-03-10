@@ -3,7 +3,7 @@
 
     <groupId>example</groupId>
     <artifactId>ognl-repl</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.1</version>
     <packaging>jar</packaging>
 
     <name>OGNL REPL</name>
@@ -14,7 +14,7 @@
         <connection>scm:git:https://github.com/naokikimura/ognl-repl.git</connection>
         <developerConnection>scm:git:https://github.com/naokikimura/ognl-repl.git</developerConnection>
         <url>https://github.com/naokikimura/ognl-repl</url>
-      <tag>HEAD</tag>
+      <tag>ognl-repl-0.1.1</tag>
   </scm>
 
     <issueManagement>
