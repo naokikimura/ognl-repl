@@ -2,14 +2,23 @@ package example;
 
 import java.io.BufferedReader;
 import java.io.Console;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import ognl.ClassResolver;
+import ognl.DefaultClassResolver;
 import ognl.Ognl;
-import ognl.OgnlContext;
 import ognl.OgnlException;
 
 /**
@@ -19,9 +28,15 @@ import ognl.OgnlException;
  */
 public abstract class App {
 
+    private static final Logger LOG = Logger.getLogger(App.class.getName());
+
     private static final ResourceBundle resources = ResourceBundle.getBundle(App.class.getName());
 
     public abstract void execute(final Map context, final Object root) throws Exception;
+
+    public void execute(final Map context) throws Exception {
+        execute(context, Ognl.getRoot(context));
+    }
 
     static App create(final InputStream in, final PrintStream out, final PrintStream err) {
         return new App() {
@@ -75,6 +90,30 @@ public abstract class App {
         }
     }
 
+    static ClassResolver createClassResolver() throws MalformedURLException {
+        String classpath = System.getProperty("ognl.repl.classpath");
+        LOG.config(String.format("ognl.repl.classpath = %s", classpath));
+        List<URL> urls = new ArrayList<URL>();
+        for (String path : (classpath == null ? "" : classpath).split(":")) {
+            URL url = new File(path).toURI().toURL();
+            LOG.config(String.format("classpath = %s", url));
+            urls.add(url);
+        }
+        final ClassLoader classLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
+        return new DefaultClassResolver() {
+
+            @Override
+            public Class classForName(String className, Map context) throws ClassNotFoundException {
+                try {
+                    return Class.forName(className, true, classLoader);
+                } catch (ClassNotFoundException e) {
+                    LOG.log(Level.FINE, null, e);
+                    return super.classForName(className, context);
+                }
+            }
+        };
+    }
+
     static Object newRootInstance() throws OgnlException {
         String expression = System.getProperty("ognl.repl.root.expression");
         return expression == null || expression.equals("") ? null : Ognl.getValue(expression, null);
@@ -82,6 +121,6 @@ public abstract class App {
 
     public static void main(String[] args) throws Exception {
         App app = create();
-        app.execute(new OgnlContext(), newRootInstance());
+        app.execute(Ognl.createDefaultContext(newRootInstance(), createClassResolver()));
     }
 }
