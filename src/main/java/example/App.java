@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import ognl.ClassResolver;
 import ognl.DefaultClassResolver;
 import ognl.Ognl;
+import ognl.OgnlContext;
 import ognl.OgnlException;
 
 /**
@@ -29,6 +30,8 @@ import ognl.OgnlException;
 public abstract class App {
 
     private static final Logger LOG = Logger.getLogger(App.class.getName());
+
+    static final String DEFAULT_ROOT_EXPRESSION = "#{\"out\":@java.lang.System@out,\"err\":@java.lang.System@err,\"env\":@java.lang.System@getenv(),\"properties\":@java.lang.System@getProperties(),\"in\":@java.lang.System@class.getField(\"in\").get(null),\"console\":@java.lang.System@console(),\"securityManager\":@java.lang.System@getSecurityManager()}";
 
     private static final ResourceBundle resources = ResourceBundle.getBundle(App.class.getName());
 
@@ -115,12 +118,23 @@ public abstract class App {
     }
 
     static Object newRootInstance() throws OgnlException {
+        return newRootInstance(new OgnlContext());
+    }
+
+    static Object newRootInstance(Map context) throws OgnlException {
+        return newRootInstance(context, Ognl.getRoot(context));
+    }
+
+    static Object newRootInstance(Map context, Object root) throws OgnlException {
         String expression = System.getProperty("ognl.repl.root.expression");
-        return expression == null || expression.equals("") ? null : Ognl.getValue(expression, null);
+        LOG.config(String.format("ognl.repl.root.expression = %s", expression));
+        return "".equals(expression) ? null : Ognl.getValue(expression == null ? DEFAULT_ROOT_EXPRESSION : expression, context, root);
     }
 
     public static void main(String[] args) throws Exception {
         App app = create();
-        app.execute(Ognl.createDefaultContext(newRootInstance(), createClassResolver()));
+        ClassResolver classResolver = createClassResolver();
+        Object root = newRootInstance(Ognl.createDefaultContext(null, classResolver));
+        app.execute(Ognl.createDefaultContext(root, classResolver));
     }
 }
