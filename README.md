@@ -15,6 +15,12 @@ in a more useful way
 
     rlwrap mvn compile exec:java
 
+Requires
+--------
+
+- <abbr title="Java Development Kit">JDK</abbr> 6+
+- [Apache Maven][2] 3+
+
 Read OGNL expressions from Standard input (stdin)
 -------------------------------------------------
 
@@ -29,11 +35,31 @@ Creating an Executable JAR File
     # copy dependency
     mvn dependency:copy-dependencies
     # run
-    java -jar target/ognl-repl-*.jar
+    java -jar target/ognl-repl-*[0-9T].jar
+
+System properties
+-----------------
+
+<dl>
+<dt><code>ognl.repl.classpath</code></dt>
+<dd>
+  <p>Sets the Classpath. For example:</p>
+  <pre><code>mvn compile exec:java -Dognl.repl.classpath="${HOME}/.m2/repository/org/apache/commons/commons-lang3/3.3.2/commons-lang3-3.3.2.jar:${HOME}/.m2/repository/log4j/log4j/1.2.17/log4j-1.2.17.jar"</code></pre>
+</dd>
+<dt><code>ognl.repl.root.expression</code></dt>
+<dd>
+  <p>Sets the root object. For example:</p>
+  <pre><code>mvn compile exec:java -Dognl.repl.root.expression='#{"foo":1,"bar":"hello"}'</code></pre>
+</dd>
+</dl>
 
 See also
 --------
 
-- [OGNL - Language Guide](http://commons.apache.org/proper/commons-ognl/language-guide.html)
-- [Apache Maven](http://maven.apache.org/)
-- [rlwrap](http://utopia.knoware.nl/~hlub/rlwrap/)
+- [OGNL - Language Guide][1]
+- [Apache Maven][2]
+- [rlwrap][3]
+
+[1]: http://commons.apache.org/proper/commons-ognl/language-guide.html
+[2]: http://maven.apache.org/
+[3]: http://utopia.knoware.nl/~hlub/rlwrap/
