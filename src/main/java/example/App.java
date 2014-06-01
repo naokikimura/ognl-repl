@@ -31,7 +31,7 @@ public abstract class App {
 
     private static final Logger LOG = Logger.getLogger(App.class.getName());
 
-    static final String DEFAULT_ROOT_EXPRESSION = "#{\"out\":@java.lang.System@out,\"err\":@java.lang.System@err,\"env\":@java.lang.System@getenv(),\"properties\":@java.lang.System@getProperties(),\"in\":@java.lang.System@class.getField(\"in\").get(null),\"console\":@java.lang.System@console(),\"securityManager\":@java.lang.System@getSecurityManager()}";
+    static final String DEFAULT_ROOT_EXPRESSION = "@java.util.Collections@unmodifiableMap(#{\"out\":@java.lang.System@out,\"err\":@java.lang.System@err,\"env\":@java.lang.System@getenv(),\"properties\":@java.lang.System@getProperties(),\"in\":@java.lang.System@class.getField(\"in\").get(null),\"console\":@java.lang.System@console(),\"securityManager\":@java.lang.System@getSecurityManager()})";
 
     private static final ResourceBundle resources = ResourceBundle.getBundle(App.class.getName());
 
@@ -52,6 +52,7 @@ public abstract class App {
                         Object value = Ognl.getValue(expression, context, root);
                         out.printf(resources.getString("out.printf.format"), value);
                     } catch (OgnlException e) {
+                        LOG.log(Level.FINE, e.getLocalizedMessage(), e);
                         err.printf(resources.getString("err.printf.format"), e);
                     }
                 }
@@ -77,6 +78,7 @@ public abstract class App {
                         Object value = Ognl.getValue(expression, context, root);
                         out.printf(resources.getString("console.printf.format"), value);
                     } catch (OgnlException e) {
+                        LOG.log(Level.FINE, e.getLocalizedMessage(), e);
                         err.printf(resources.getString("err.printf.format"), e);
                     }
                 }
@@ -86,11 +88,7 @@ public abstract class App {
 
     static App create() {
         Console console = System.console();
-        if (console == null) {
-            return App.create(System.in, System.out, System.err);
-        } else {
-            return App.create(console, console.writer(), System.err);
-        }
+        return console == null ? create(System.in, System.out, System.err) : create(console, console.writer(), System.err);
     }
 
     static ClassResolver createClassResolver() throws MalformedURLException {
@@ -110,7 +108,7 @@ public abstract class App {
                 try {
                     return Class.forName(className, true, classLoader);
                 } catch (ClassNotFoundException e) {
-                    LOG.log(Level.FINE, null, e);
+                    LOG.log(Level.FINE, e.getLocalizedMessage(), e);
                     return super.classForName(className, context);
                 }
             }
