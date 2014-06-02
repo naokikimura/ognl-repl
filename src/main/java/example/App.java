@@ -71,7 +71,11 @@ public abstract class App {
 
         URL resource = resources.nextElement();
         LOG.config(String.format("load properties = %s", resource));
-        Properties properties = new Properties(loadProperties(resources, encoding, defaults));
+        return loadProperties(resource, encoding, loadProperties(resources, encoding, defaults));
+    }
+
+    private static Properties loadProperties(URL resource, Charset encoding, Properties defaults) throws IOException {
+        Properties properties = new Properties(defaults);
         Reader reader = new InputStreamReader(resource.openStream(), encoding);
         try {
             properties.load(reader);
