@@ -43,7 +43,7 @@ public abstract class App {
     static {
         Properties defaults = null;
         try {
-            defaults = loadProperties("example/ognl-repl.properties");
+            defaults = loadProperties("ognl-repl.properties");
         } catch (IOException ex) {
             LOG.log(Level.SEVERE, null, ex);
         }
