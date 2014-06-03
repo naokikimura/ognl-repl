@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.Reader;
@@ -148,8 +149,26 @@ public abstract class App {
     }
 
     static App create() {
+        return System.console() == null ? createStreamApp() : createConsoleApp();
+    }
+
+    static App createConsoleApp() {
         Console console = System.console();
-        return console == null ? create(System.in, System.out, System.err) : create(console, console.writer(), System.err);
+        return create(console, console.writer(), System.err);
+    }
+
+    static App createStreamApp() {
+        Boolean isPrint = Boolean.valueOf(findProperty("ognl.repl.stream.out.print"));
+        return create(System.in, isPrint ? System.out : createNullPrintStream(), System.err);
+    }
+
+    private static PrintStream createNullPrintStream() {
+        return new PrintStream(new OutputStream() {
+
+            @Override
+            public void write(int b) throws IOException {
+            }
+        });
     }
 
     static ClassResolver createClassResolver() throws MalformedURLException {
