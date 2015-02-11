@@ -46,7 +46,7 @@ public abstract class App {
         try {
             defaults = loadProperties("ognl-repl.properties");
         } catch (IOException ex) {
-            LOG.log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
         }
         PROPERTIES = new Properties(defaults);
     }
@@ -71,7 +71,7 @@ public abstract class App {
         if (resources == null || !resources.hasMoreElements()) return new Properties(defaults);
 
         URL resource = resources.nextElement();
-        LOG.config(String.format("load properties = %s", resource));
+        LOG.log(Level.CONFIG, "load properties = {0}", resource);
         return loadProperties(resource, encoding, loadProperties(resources, encoding, defaults));
     }
 
@@ -93,7 +93,7 @@ public abstract class App {
     static String findProperty(String key, String def) {
         String systemProperty = System.getProperty(key);
         String value = systemProperty == null ? PROPERTIES.getProperty(key, def) : systemProperty;
-        LOG.config(String.format("%s = %s", key, value));
+        LOG.log(Level.CONFIG, "{0} = {1}", new Object[]{ key, value });
         return value;
     }
 
@@ -101,6 +101,10 @@ public abstract class App {
 
     public void execute(final Map context) throws Exception {
         execute(context, Ognl.getRoot(context));
+    }
+
+    static App create(final InputStream in, final OutputStream out, final OutputStream err) {
+        return create(in, new PrintStream(out), new PrintStream(err));
     }
 
     static App create(final InputStream in, final PrintStream out, final PrintStream err) {
@@ -176,7 +180,7 @@ public abstract class App {
         List<URL> urls = new ArrayList<URL>();
         for (String path : (classpath.trim() + ":").split(":")) {
             URL url = new File(path).toURI().toURL();
-            LOG.config(String.format("classpath = %s", url));
+            LOG.log(Level.CONFIG, "classpath = {0}", url);
             urls.add(url);
         }
         final ClassLoader classLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
